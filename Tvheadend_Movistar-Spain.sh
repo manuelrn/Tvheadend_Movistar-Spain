@@ -37,7 +37,7 @@ GRABBER_ERROR=false #INSTALLED_GRABBER=true
 SERVICE_ERROR=false
 
 
-LOCAL_SCRIPT_VERSION="20170504"
+LOCAL_SCRIPT_VERSION="20170506"
 REMOTE_SCRIPT_VERSION="$(curl -fLs https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/version.txt | grep ^"SCRIPT_VERSION" | cut -d'=' -f2)" 2>>Tvheadend_Movistar-Spain.log
 URL_SCRIPT="https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/Tvheadend_Movistar-Spain.sh" 2>>Tvheadend_Movistar-Spain.log
 
@@ -128,7 +128,7 @@ case $SYSTEM in
 		TVHEADEND_GROUP="video" #"$(id -gn $TVHEADEND_USER)"
 		TVHEADEND_PERMISSIONS="700" #"u=rwX,g=,o="
 		TVHEADEND_CONFIG_DIR="/home/hts/.hts/tvheadend"
-		TVHEADEND_GRABBER_DIR="/usr/local/bin";;
+		TVHEADEND_GRABBER_DIR="/usr/bin";;
 esac
 
 
@@ -194,9 +194,9 @@ fi
 
 
 if [[ -d $TVHEADEND_CONFIG_DIR/channel ]]; then
-	TVHEADEND_CHANNEL_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/channel) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_CHANNEL_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/channel) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_CHANNEL_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/channel) 2>>Tvheadend_Movistar-Spain.log
+	TVHEADEND_CHANNEL_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/channel) 2>/dev/null
+	TVHEADEND_CHANNEL_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/channel) 2>/dev/null
+	TVHEADEND_CHANNEL_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/channel) 2>/dev/null
 	if [ $? -ne 0 ]; then
 		TVHEADEND_CHANNEL_USER=$TVHEADEND_USER
 		TVHEADEND_CHANNEL_GROUP=$TVHEADEND_GROUP
@@ -209,9 +209,9 @@ else
 fi
 
 if [[ -d $TVHEADEND_CONFIG_DIR/epggrab ]]; then
-	TVHEADEND_EPGGRAB_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/epggrab) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_EPGGRAB_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/epggrab) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_EPGGRAB_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/epggrab) 2>>Tvheadend_Movistar-Spain.log
+	TVHEADEND_EPGGRAB_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/epggrab) 2>/dev/null
+	TVHEADEND_EPGGRAB_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/epggrab) 2>/dev/null
+	TVHEADEND_EPGGRAB_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/epggrab) 2>/dev/null
 	if [ $? -ne 0 ]; then
 		TVHEADEND_EPGGRAB_USER=$TVHEADEND_USER
 		TVHEADEND_EPGGRAB_GROUP=$TVHEADEND_GROUP
@@ -224,9 +224,9 @@ else
 fi
 
 if [[ -d $TVHEADEND_CONFIG_DIR/input ]]; then
-	TVHEADEND_INPUT_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/input) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_INPUT_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/input) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_INPUT_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/input) 2>>Tvheadend_Movistar-Spain.log
+	TVHEADEND_INPUT_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/input) 2>/dev/null
+	TVHEADEND_INPUT_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/input) 2>/dev/null
+	TVHEADEND_INPUT_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/input) 2>/dev/null
 	if [ $? -ne 0 ]; then
 		TVHEADEND_INPUT_USER=$TVHEADEND_USER
 		TVHEADEND_INPUT_GROUP=$TVHEADEND_GROUP
@@ -239,9 +239,9 @@ else
 fi
 
 if [[ -d $TVHEADEND_CONFIG_DIR/Picons ]]; then
-	TVHEADEND_PICONS_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/Picons) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_PICONS_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/Picons) 2>>Tvheadend_Movistar-Spain.log
-	TVHEADEND_PICONS_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/Picons) 2>>Tvheadend_Movistar-Spain.log
+	TVHEADEND_PICONS_USER=$(stat -c %U $TVHEADEND_CONFIG_DIR/Picons) 2>/dev/null
+	TVHEADEND_PICONS_GROUP=$(stat -c %G $TVHEADEND_CONFIG_DIR/Picons) 2>/dev/null
+	TVHEADEND_PICONS_PERMISSIONS=$(stat -c %a $TVHEADEND_CONFIG_DIR/Picons) 2>/dev/null
 	if [ $? -ne 0 ]; then
 		TVHEADEND_PICONS_USER=$TVHEADEND_USER
 		TVHEADEND_PICONS_GROUP=$TVHEADEND_GROUP
@@ -442,7 +442,11 @@ if [ "$INSTALL_LIST" = true ]; then
 	if [ $? -ne 0 ]; then
 		ERROR=true
 	fi
-	sed -i 's/"prefer_picon": .*,/"prefer_picon": false,\n\t"chiconscheme": 0,\n\t"piconpath": "file:\/\/\/var\/packages\/tvheadend-testing\/target\/var\/Picons",\n\t"piconscheme": 1,/g' $TVHEADEND_CONFIG_DIR/config 2>>Tvheadend_Movistar-Spain.log
+	sed -i 's/"prefer_picon": .*,/"prefer_picon": false,\n\t"chiconscheme": 0,\n\t"piconpath": "file:\/\/TVHEADEND_CONFIG_DIR\/Picons",\n\t"piconscheme": 1,/g' $TVHEADEND_CONFIG_DIR/config 2>>Tvheadend_Movistar-Spain.log
+	if [ $? -ne 0 ]; then
+		ERROR=true
+	fi
+	sed -i "s,TVHEADEND_CONFIG_DIR,$TVHEADEND_CONFIG_DIR,g" $TVHEADEND_CONFIG_DIR/config 2>>Tvheadend_Movistar-Spain.log
 	if [ $? -eq 0 -a $ERROR = "false" ]; then
 		printf "%s$green%s$end%s\n" "[" "  OK  " "]"
 	else
@@ -488,8 +492,8 @@ if [ "$INSTALL_GRABBER" = true ]; then
 	if [ $? -ne 0 ]; then
 		ERROR=true
 	fi
-	if [ $SYSTEM -eq 2 ]; then
-		sed -i -- "s,/usr/local/bin,$TVHEADEND_GRABBER_DIR,g" $TVHEADEND_CONFIG_DIR/epggrab/xmltv/channels/* epggrab 2>>Tvheadend_Movistar-Spain.log
+	if [ $SYSTEM -eq 2 -o $SYSTEM -eq 3 ]; then
+		sed -i -- "s,/usr/local/bin,$TVHEADEND_GRABBER_DIR,g" $TVHEADEND_CONFIG_DIR/epggrab/xmltv/channels/* 2>>Tvheadend_Movistar-Spain.log
 		if [ $? -ne 0 ]; then
 			ERROR=true
 		fi
@@ -599,11 +603,11 @@ if [ "$INSTALL_GRABBER" = true ]; then
 	if [ $? -ne 0 ]; then
 		ERROR=true
 	fi
-	if [ $SYSTEM -eq 2 ]; then
-		sed -i 's/"modules": {/"modules": {\n\t\t"\/storage\/.kodi\/addons\/service.tvheadend42\/bin\/tv_grab_movistar-spain": {\n\t\t\t"class": "epggrab_mod_int_xmltv",\n\t\t\t"dn_chnum": 0,\n\t\t\t"name": "XMLTV: Movistar+",\n\t\t\t"type": "Internal",\n\t\t\t"enabled": true,\n\t\t\t"priority": 3\n\t\t},/g' $TVHEADEND_CONFIG_DIR/epggrab/config 2>>Tvheadend_Movistar-Spain.log
-	else
-		sed -i 's/"modules": {/"modules": {\n\t\t"\/usr\/local\/bin\/tv_grab_movistar-spain": {\n\t\t\t"class": "epggrab_mod_int_xmltv",\n\t\t\t"dn_chnum": 0,\n\t\t\t"name": "XMLTV: Movistar+",\n\t\t\t"type": "Internal",\n\t\t\t"enabled": true,\n\t\t\t"priority": 3\n\t\t},/g' $TVHEADEND_CONFIG_DIR/epggrab/config 2>>Tvheadend_Movistar-Spain.log
+	sed -i 's/"modules": {/"modules": {\n\t\t"TVHEADEND_GRABBER_DIR\/tv_grab_movistar-spain": {\n\t\t\t"class": "epggrab_mod_int_xmltv",\n\t\t\t"dn_chnum": 0,\n\t\t\t"name": "XMLTV: Movistar+",\n\t\t\t"type": "Internal",\n\t\t\t"enabled": true,\n\t\t\t"priority": 3\n\t\t},/g' $TVHEADEND_CONFIG_DIR/epggrab/config 2>>Tvheadend_Movistar-Spain.log
+	if [ $? -ne 0 ]; then
+		ERROR=true
 	fi
+	sed -i "s,TVHEADEND_GRABBER_DIR,$TVHEADEND_GRABBER_DIR,g" $TVHEADEND_CONFIG_DIR/epggrab/config 2>>Tvheadend_Movistar-Spain.log
 	if [ $? -eq 0 -a $ERROR = "false" ]; then
 		printf "%s$green%s$end%s\n" "[" "  OK  " "]"
 	else

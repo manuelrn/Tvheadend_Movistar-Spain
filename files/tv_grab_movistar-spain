@@ -2,7 +2,7 @@
 enable_tdt_epg=false
 xmltv_type="URL"
 xmltv_file_location="/tmp/latinmunich_xmltv-movistar-spain.gz"
-if [[ "$enable_tdt_epg" == true ]]
+if [ "$enable_tdt_epg" = true ]
 then
     xmltv_url_location="http://epg.tododream.com/latinmunich_xmltv-movistar-spain_todo.gz"
 else
@@ -12,11 +12,11 @@ dflag=
 vflag=
 cflag=
 qflag=
-if [[ $# -lt 1 ]]
+if [ $# -lt 1 ]
 then
-	if [[ "$xmltv_type" == "FILE" ]]
+	if [ "$xmltv_type" = "FILE" ]
 	then
-		if [[ "${xmltv_file_location##*.}" == "gz" ]]
+		if [ "${xmltv_file_location##*.}" = "gz" ]
 		then
 			zcat "$xmltv_file_location"
 			exit 0
@@ -24,9 +24,9 @@ then
 			cat "$xmltv_file_location"
 			exit 0
 		fi
-	elif [[ "$xmltv_type" == "URL" ]]
+	elif [ "$xmltv_type" = "URL" ]
 	then
-		if [[ "${xmltv_url_location##*.}" == "gz" ]]
+		if [ "${xmltv_url_location##*.}" = "gz" ]
 		then
 			wget -qO - "$xmltv_url_location" | zcat
 			exit 0
@@ -48,7 +48,7 @@ do
 		--quiet) args="${args}-q ";;
 
 		#pass through anything else
-		*) [[ "${arg:0:1}" == "-" ]] || delim="\""
+		*) [ "${arg:0:1}" = "-" ] || delim="\""
 			args="${args}${delim}${arg}${delim} ";;
 	esac
 done
