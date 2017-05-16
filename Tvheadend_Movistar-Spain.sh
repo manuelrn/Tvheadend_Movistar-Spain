@@ -37,7 +37,7 @@ GRABBER_ERROR=false #INSTALLED_GRABBER=true
 SERVICE_ERROR=false
 
 
-LOCAL_SCRIPT_VERSION="20170506"
+LOCAL_SCRIPT_VERSION="20170516"
 REMOTE_SCRIPT_VERSION="$(curl -fLs https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/version.txt | grep ^"SCRIPT_VERSION" | cut -d'=' -f2)" 2>>Tvheadend_Movistar-Spain.log
 URL_SCRIPT="https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/Tvheadend_Movistar-Spain.sh" 2>>Tvheadend_Movistar-Spain.log
 
@@ -73,11 +73,16 @@ elif [ "${SYSTEM_INFO#*"LibreELEC"}" != "$SYSTEM_INFO" -o "${SYSTEM_INFO#*"OpenE
 	if [ "$OPTION" = "s" -o "$OPTION" = "S" -o "$OPTION" = "" ]; then
 		SYSTEM=2
 	fi
+#elif [ "${SYSTEM_INFO#*"osmc"}" != "$SYSTEM_INFO" ]; then
+#	read -p "Se ha detectado el sistema operativo OSMC. ¿Es correcto? [S/n] " OPTION
+#	if [ "$OPTION" = "s" -o "$OPTION" = "S" -o "$OPTION" = "" ]; then
+#		SYSTEM=3
+#	fi
 fi
 
-while [ $SYSTEM -ne 1 ] && [ $SYSTEM -ne 2 ] && [ $SYSTEM -ne 3 ]; do
+while [ $SYSTEM -ne 1 ] && [ $SYSTEM -ne 2 ] && [ $SYSTEM -ne 3 ]; do #while [ $SYSTEM -ne 1 ] && [ $SYSTEM -ne 2 ] && [ $SYSTEM -ne 3 ] && [ $SYSTEM -ne 4 ]; do
 	clear
-	echo -e "Seleccione el sistema operativo que está utilizando:\n\t1- Synology/XPEnology\n\t2- LibreELEC/OpenELEC\n\t3- Linux"
+	echo -e "Seleccione el sistema operativo que está utilizando:\n\t1- Synology/XPEnology\n\t2- LibreELEC/OpenELEC\n\t3- Linux" #echo -e "Seleccione el sistema operativo que está utilizando:\n\t1- Synology/XPEnology\n\t2- LibreELEC/OpenELEC\n\t3- OSMC\n\t4- Linux"
 	read -p "Opción: " SYSTEM
 	case $SYSTEM in
 		1)
@@ -90,8 +95,13 @@ while [ $SYSTEM -ne 1 ] && [ $SYSTEM -ne 2 ] && [ $SYSTEM -ne 3 ]; do
 			if [ "$OPTION" != "s" -a "$OPTION" != "S" -a "$OPTION" != "" ]; then
 				SYSTEM=0
 			fi;;
-		3)
-			read -p "Se ha elegido la opción 3 (Linux), ¿es correcto? [S/n] " OPTION
+		#3)
+		#	read -p "Se ha elegido la opción 3 (OSMC), ¿es correcto? [S/n] " OPTION
+		#	if [ "$OPTION" != "s" -a "$OPTION" != "S" -a "$OPTION" != "" ]; then
+		#		SYSTEM=0
+		#	fi;;
+		3) #4)
+			read -p "Se ha elegido la opción 3 (Linux), ¿es correcto? [S/n] " OPTION #read -p "Se ha elegido la opción 4 (Linux), ¿es correcto? [S/n] " OPTION
 			if [ "$OPTION" != "s" -a "$OPTION" != "S" -a "$OPTION" != "" ]; then
 				SYSTEM=0
 			fi;;
@@ -122,7 +132,14 @@ case $SYSTEM in
 		TVHEADEND_PERMISSIONS="700" #"u=rwX,g=,o="
 		TVHEADEND_CONFIG_DIR="/storage/.kodi/userdata/addon_data/$(ls /storage/.kodi/userdata/addon_data/ | grep tvheadend)" 2>>Tvheadend_Movistar-Spain.log #"/storage/.kodi/userdata/addon_data/service.tvheadend42"
 		TVHEADEND_GRABBER_DIR="/storage/.kodi/addons/$(ls /storage/.kodi/addons/ | grep tvheadend)/bin" 2>>Tvheadend_Movistar-Spain.log;; #"/storage/.kodi/addons/service.tvheadend42/bin"
-	3)
+	#3)
+	#	TVHEADEND_SERVICE="$(systemctl list-unit-files --type=service | grep tvheadend | tr -s ' ' | cut -d' ' -f1)" 2>>Tvheadend_Movistar-Spain.log #"service.tvheadend42.service"
+	#	TVHEADEND_USER="osmc"
+	#	TVHEADEND_GROUP="video"
+	#	TVHEADEND_PERMISSIONS="700" #"u=rwX,g=,o="
+	#	TVHEADEND_CONFIG_DIR="/home/osmc/.hts/tvheadend"
+	#	TVHEADEND_GRABBER_DIR="/usr/bin"
+	3) #4)
 		TVHEADEND_SERVICE="$(systemctl list-unit-files --type=service | grep tvheadend | tr -s ' ' | cut -d' ' -f1)" 2>>Tvheadend_Movistar-Spain.log #"tvheadend.service"
 		TVHEADEND_USER="$(cut -d: -f1 /etc/passwd | grep -E 'tvheadend|hts')" 2>>Tvheadend_Movistar-Spain.log #"hts"
 		TVHEADEND_GROUP="video" #"$(id -gn $TVHEADEND_USER)"
@@ -344,6 +361,8 @@ case $SYSTEM in
 		systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 	3)
 		systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
+	#4)
+	#	systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 esac
 if [ $? -eq 0 ]; then
 	printf "%s$green%s$end%s\n" "[" "  OK  " "]"
@@ -480,7 +499,7 @@ if [ "$INSTALL_GRABBER" = true ]; then
 	fi
 	
 	printf "%-$(($COLUMNS-10))s"  " * Instalando grabber de Movistar+"
-	if [ -f /usr/bin/tv_grab_movistar-spain ]; then
+	if [ -f /usr/bin/tv_grab_movistar-spain -a $SYSTEM -eq 1 ]; then
 		rm /usr/bin/tv_grab_movistar-spain 2>>Tvheadend_Movistar-Spain.log
 	fi
 	ERROR=false
@@ -489,10 +508,10 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		ERROR=true
 	fi
 	tar -Jxf "Configuracion_Tvheadend_$REMOTE_LIST_VERSION.tar.xz" -C $TVHEADEND_CONFIG_DIR epggrab 2>>Tvheadend_Movistar-Spain.log
-	if [ $? -ne 0 ]; then
+	if [ $? -ne 0 -a $SYSTEM -ne 2 ]; then
 		ERROR=true
 	fi
-	if [ $SYSTEM -eq 2 -o $SYSTEM -eq 3 ]; then
+	if [ $SYSTEM -ne 1 ]; then
 		sed -i -- "s,/usr/local/bin,$TVHEADEND_GRABBER_DIR,g" $TVHEADEND_CONFIG_DIR/epggrab/xmltv/channels/* 2>>Tvheadend_Movistar-Spain.log
 		if [ $? -ne 0 ]; then
 			ERROR=true
@@ -549,6 +568,8 @@ if [ "$INSTALL_GRABBER" = true ]; then
 			systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 		3)
 			systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
+		#4)
+		#	systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 	esac
 	if [ $? -eq 0 ]; then
 		printf "%s$green%s$end%s\n" "[" "  OK  " "]"
@@ -588,6 +609,8 @@ if [ "$INSTALL_GRABBER" = true ]; then
 			systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 		3)
 			systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
+		#4)
+		#	systemctl stop $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 	esac
 	if [ $? -eq 0 ]; then
 		printf "%s$green%s$end%s\n" "[" "  OK  " "]"
@@ -628,6 +651,8 @@ case $SYSTEM in
 		systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 	3)
 		systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
+	#4)
+	#	systemctl start $TVHEADEND_SERVICE 2>>Tvheadend_Movistar-Spain.log;;
 esac
 if [ $? -eq 0 ]; then
 	printf "%s$green%s$end%s\n" "[" "  OK  " "]"
@@ -671,4 +696,12 @@ if [ -f "Configuracion_Tvheadend_$REMOTE_LIST_VERSION.tar.xz" ]; then
 fi
 if [ -f "tv_grab_movistar-spain" ]; then
 	rm "tv_grab_movistar-spain" 2>>Tvheadend_Movistar-Spain.log
+fi
+
+
+if [ ! -s Tvheadend_Movistar-Spain.old.log ]; then
+	rm "Tvheadend_Movistar-Spain.old.log" 2>>Tvheadend_Movistar-Spain.log
+fi
+if [ ! -s Tvheadend_Movistar-Spain.log ]; then
+	rm "Tvheadend_Movistar-Spain.log" 2>>Tvheadend_Movistar-Spain.log
 fi
