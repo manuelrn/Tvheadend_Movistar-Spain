@@ -23,7 +23,6 @@ fi
 
 if [ -f "Tvheadend_Movistar-Spain.log" ]; then
 	mv "Tvheadend_Movistar-Spain.log" "Tvheadend_Movistar-Spain.old.log" 2>>Tvheadend_Movistar-Spain.log
-	rm "Tvheadend_Movistar-Spain.log" 2>>Tvheadend_Movistar-Spain.log
 fi
 
 
@@ -37,7 +36,7 @@ GRABBER_ERROR=false #INSTALLED_GRABBER=true
 SERVICE_ERROR=false
 
 
-LOCAL_SCRIPT_VERSION="20170516"
+LOCAL_SCRIPT_VERSION="20180819"
 REMOTE_SCRIPT_VERSION="$(curl -fLs https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/version.txt | grep ^"SCRIPT_VERSION" | cut -d'=' -f2)" 2>>Tvheadend_Movistar-Spain.log
 URL_SCRIPT="https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/Tvheadend_Movistar-Spain.sh" 2>>Tvheadend_Movistar-Spain.log
 
@@ -699,9 +698,9 @@ if [ -f "tv_grab_movistar-spain" ]; then
 fi
 
 
-if [ ! -s Tvheadend_Movistar-Spain.old.log ]; then
+if [ -f "Tvheadend_Movistar-Spain.old.log" -a ! -s Tvheadend_Movistar-Spain.old.log ]; then
 	rm "Tvheadend_Movistar-Spain.old.log" 2>>Tvheadend_Movistar-Spain.log
 fi
-if [ ! -s Tvheadend_Movistar-Spain.log ]; then
+if [ -f "Tvheadend_Movistar-Spain.log" -a ! -s Tvheadend_Movistar-Spain.log ]; then
 	rm "Tvheadend_Movistar-Spain.log" 2>>Tvheadend_Movistar-Spain.log
 fi

@@ -1,3 +1,72 @@
+## 2018-08-19
+### Actualizadas las frecuencias de (cambio de frecuencia)
+- Movistar+ Bajo Demanda (Dial: 8)
+- Movistar eSports (Dial: 29)
+- La Tienda en Casa (Dial: 41)
+
+### Renombrados los canales (cambio de nombre)
+- beIN SPORTS HD (Dial: 50) --> Movistar Liga de Campeones HD
+- beIN SPORTS MAX 1 HD (Dial: 51) --> Movistar Liga de Campeones 1 HD
+- beIN SPORTS MAX 2 HD (Dial: 52) --> Movistar Liga de Campeones 2 HD
+- Toros TV HD (Dial: 67) --> Toros HD
+- A&E (Dial: 75) --> Blaze
+- NHK World TV (Dial: 148) --> NHK World Japan HD
+- beIN SPORTS MAX 3 (Dial: 186) --> Movistar Liga de Campeones 3
+- beIN SPORTS MAX 4 (Dial: 187) --> Movistar Liga de Campeones 4
+- beIN SPORTS MAX 5 (Dial: 188) --> Movistar Liga de Campeones 5
+- beIN SPORTS MAX 6 (Dial: 189) --> Movistar Liga de Campeones 6
+- beIN SPORTS MAX 7 (Dial: 190) --> Movistar Liga de Campeones 7
+- beIN SPORTS MAX 8 (Dial: 191) --> Movistar Liga de Campeones 8
+
+### Actualizados los diales (cambio de dial)
+- Movistar eSports (Dial: 29) --> Movistar eSports (Dial: 60)
+- Movistar Estrenos HD (Dial: 31) --> Movistar Estrenos HD (Dial: 30)
+- beIN LaLiga MAX 2 HD (Dial: 49) --> beIN LaLiga MAX 2 HD (Dial: 179)
+- Eurosport 1 HD (Dial: 60) --> Eurosport 1 HD (Dial: 61)
+- Eurosport 2 (Dial: 61) --> Eurosport 2 (Dial: 62)
+- Gol (Dial: 62) --> Gol (Dial: 63)
+- Teledeporte (Dial: 63) --> Teledeporte (Dial: 64)
+- Caza y Pesca HD (Dial: 65) --> Caza y Pesca HD (Dial: 66)
+- Iberalia TV (Dial: 66) --> Iberalia TV (Dial: 67)
+- Toros TV HD (Dial: 67) --> Toros TV HD (Dial: 68)
+- Multideporte 1 (Dial: 68) --> Multideporte 1 (Dial: 69)
+- Multifútbol 1 (Dial: 176) --> Multifútbol 1 (Dial: 425)
+- Multifútbol 2 (Dial: 177) --> Multifútbol 2 (Dial: 426)
+- Movistar Fútbol HD (Dial: 45) --> Movistar Fútbol HD (Dial: 424)
+
+### Añadidos nuevos canales (posiblemente surgidos de "Sustituidos" o "Renombrados")
+- LaLiga 123 TV (Dial: 49)
+- Movistar Disney (Dial: 31)
+- Movistar Liga de Campeones HD (Dial: 50)
+- Movistar Liga de Campeones 1 HD (Dial: 51)
+- Movistar Liga de Campeones 2 HD (Dial: 52)
+- Blaze (Dial: 75)
+- Be Mad (Dial: 86)
+- Canal Extremadura SAT (Dial: 152)
+- Córdoba TV (Dial: 153)
+- Movistar Liga de Campeones 3 (Dial: 186)
+- Movistar Liga de Campeones 4 (Dial: 187)
+- Movistar Liga de Campeones 5 (Dial: 188)
+- Movistar Liga de Campeones 6 (Dial: 189)
+- Movistar Liga de Campeones 7 (Dial: 190)
+- Movistar Liga de Campeones 8 (Dial: 191)
+
+### Eliminados los canales (posiblemente a causa de "Sustituidos" o "Renombrados")
+- Non Stop People (Dial: 23)
+- beIN SPORTS HD (Dial: 50)
+- beIN SPORTS MAX 1 HD (Dial: 51)
+- beIN SPORTS MAX 2 HD (Dial: 52)
+- A&E (Dial: 75)
+- Multifútbol 3 (Dial: 178)
+- Multifútbol 4 (Dial: 179)
+- beIN SPORTS MAX 3 (Dial: 186)
+- beIN SPORTS MAX 4 (Dial: 187)
+- beIN SPORTS MAX 5 (Dial: 188)
+- beIN SPORTS MAX 6 (Dial: 189)
+- beIN SPORTS MAX 7 (Dial: 190)
+- beIN SPORTS MAX 8 (Dial: 191)
+
+
 ## 2017-05-04
 Limpieza de los ficheros de configuración: se han eliminado unos 2000 ficheros repartidos por cientos de carpetas debido a que aparentemente Tvheadend ha cambiado su forma de trabajar con estos ficheros y ahora solamente utiliza un fichero por cada Mux, incluyendo todos sus servicios dentro de éste en lugar de utilizar ficheros independientes para cada uno de ellos.
 
