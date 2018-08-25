@@ -1,3 +1,10 @@
+## 2018-08-25
+### Añadidos nuevos canales
+- LaLiga 123 TV Multi 1 (Dial: 176)
+- LaLiga 123 TV Multi 2 (Dial: 177)
+- LaLiga 123 TV Multi 3 (Dial: 178)
+
+
 ## 2018-08-19
 ### Actualizadas las frecuencias de (cambio de frecuencia)
 - Movistar+ Bajo Demanda (Dial: 8)
