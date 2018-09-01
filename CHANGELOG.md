@@ -1,3 +1,29 @@
+## 2018-09-01
+### Sustituidos los canales (cambio de frecuencia y nombre)
+- TeleSUR (Dial: 142) --> TeleSUR HD
+
+### Renombrados los canales (cambio de nombre)
+- Movistar Series Xtra HD (Dial: 12) --> Movistar Seriesmanía HD
+- Movistar Xtra HD (Dial: 32) --> Movistar CineDoc&Roll HD
+- Movistar DCine HD (Dial: 35) --> Movistar Drama HD
+
+### Actualizados los diales (cambio de dial)
+- Movistar Xtra HD (Dial: 32) --> Movistar CineDoc&Roll HD (Dial: 31)
+- Movistar Disney (Dial: 31) --> Movistar Disney (Dial: 32)
+
+### Añadidos nuevos canales (posiblemente surgidos de "Sustituidos" o "Renombrados")
+- Movistar Seriesmanía HD (Dial: 12)
+- Movistar CineDoc&Roll HD (Dial: 31)
+- Movistar Drama HD (Dial: 35)
+- TeleSUR HD (Dial: 142)
+
+### Eliminados los canales (posiblemente a causa de "Sustituidos" o "Renombrados")
+- Movistar Series Xtra HD (Dial: 12)
+- Movistar Xtra HD (Dial: 32)
+- Movistar DCine HD (Dial: 35)
+- TeleSUR (Dial: 142)
+
+
 ## 2018-08-25
 ### Añadidos nuevos canales
 - LaLiga 123 TV Multi 1 (Dial: 176)
