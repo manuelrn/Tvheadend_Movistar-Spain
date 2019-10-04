@@ -11,7 +11,7 @@ end='\e[0m'
 clear
 if [ $(id -u) -ne 0 ]; then
 	printf "$red%s$end\n" "ERROR: Por favor, ejecute el script como root.
-
+	
 	Puede hacerlo de diferentes formas:
 	- Mediante el comando \"sudo $0\"
 	- Entrando en la sesión del propio root con \"sudo -i\"
@@ -31,6 +31,10 @@ if [ -z "$COLUMNS" ]; then
 fi
 
 
+command -v curl >/dev/null 2>&1 || { printf "$red%s\n%s$end\n" "ERROR: Es necesario tener instalado 'curl'." "Por favor, ejecute el script de nuevo una vez haya sido instalado."; exit 1; }
+command -v wget >/dev/null 2>&1 || { printf "$red%s\n%s$end\n" "ERROR: Es necesario tener instalado 'wget'." "Por favor, ejecute el script de nuevo una vez haya sido instalado."; exit 1; }
+
+
 LIST_ERROR=false #INSTALLED_LIST=true
 GRABBER_ERROR=false #INSTALLED_GRABBER=true
 SERVICE_ERROR=false
@@ -42,9 +46,9 @@ URL_SCRIPT="https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/Tvhe
 
 if [ $LOCAL_SCRIPT_VERSION -lt $REMOTE_SCRIPT_VERSION ]; then
 	echo "Hay disponible una versión más reciente del script, se va a proceder a su descarga."
-
+	
 	sleep 6
-
+	
 	clear
 	printf "%-$(($COLUMNS-10))s"  " * Actualizando el script $(basename $0)"
 	wget -qO "$(basename $0)" "$URL_SCRIPT" 2>>Tvheadend_Movistar-Spain.log
@@ -168,7 +172,7 @@ if [ "$1" = "-b" -o "$1" = "-B" ]; then
 	else
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 	fi
-
+	
 	printf "%-$(($COLUMNS-10+1))s"  " * Realizando backup de la configuración actual"
 	SCRIPT_ROUTE="$PWD"
 	cd $TVHEADEND_CONFIG_DIR
@@ -185,7 +189,7 @@ if [ "$1" = "-b" -o "$1" = "-B" ]; then
 	else
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 	fi
-
+	
 	printf "%-$(($COLUMNS-10))s"  " * Iniciando Tvheadend"
 	case $SYSTEM in
 		1)
@@ -204,7 +208,7 @@ if [ "$1" = "-b" -o "$1" = "-B" ]; then
 	else
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 	fi
-
+	
 	exit 1
 fi
 
@@ -280,7 +284,7 @@ URL_GRABBER="https://github.com/manuelrn/Tvheadend_Movistar-Spain/raw/master/fil
 if [ -f $TVHEADEND_CONFIG_DIR/version.txt ]; then
 	LOCAL_LIST_VERSION="$(grep ^"LIST_VERSION" $TVHEADEND_CONFIG_DIR/version.txt | cut -d'=' -f2)" 2>>Tvheadend_Movistar-Spain.log
 	LOCAL_GRABBER_VERSION="$(grep ^"GRABBER_VERSION" $TVHEADEND_CONFIG_DIR/version.txt | cut -d'=' -f2)" 2>>Tvheadend_Movistar-Spain.log
-
+	
 	if [ $LOCAL_LIST_VERSION -gt 0 ]; then
 		clear
 		echo "Se ha detectado una versión de la lista de canales previamente instalada."
@@ -301,9 +305,9 @@ if [ -f $TVHEADEND_CONFIG_DIR/version.txt ]; then
 	else
 		INSTALL_LIST=true
 	fi
-
+	
 	sleep 1
-
+	
 	if [ $LOCAL_GRABBER_VERSION -gt 0 ]; then
 		clear
 		echo "Se ha detectado una versión del grabber de Movistar+ previamente instalada."
@@ -331,9 +335,9 @@ if [ -f $TVHEADEND_CONFIG_DIR/version.txt ]; then
 else
 	LOCAL_LIST_VERSION=0
 	LOCAL_GRABBER_VERSION=0
-
+	
 	INSTALL_LIST=true
-
+	
 	if [ -f $TVHEADEND_GRABBER_DIR/tv_grab_movistar-spain -o "$1" = "-g" -o "$1" = "-G" ]; then
 		INSTALL_GRABBER=true
 	else
@@ -381,8 +385,8 @@ if [ "$INSTALL_LIST" = true ]; then
 		echo -e "\nLa lista de canales no se ha podido descargar.\nPor favor, vuelva a intentarlo más tarde."
 		exit 1
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10+1))s"  " * Eliminando la configuración actual"
 	rm -rf $TVHEADEND_CONFIG_DIR/channel $TVHEADEND_CONFIG_DIR/input/dvb $TVHEADEND_CONFIG_DIR/Picons 2>>Tvheadend_Movistar-Spain.log
 	if [ $? -eq 0 ]; then
@@ -391,8 +395,8 @@ if [ "$INSTALL_LIST" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		LIST_ERROR=true
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10+1))s"  " * Aplicando la configuración nueva"
 	tar -Jxf "Configuracion_Tvheadend_$REMOTE_LIST_VERSION.tar.xz" -C $TVHEADEND_CONFIG_DIR channel input Picons 2>>Tvheadend_Movistar-Spain.log #--strip-components=1
 	if [ $? -eq 0 -o $SYSTEM -eq 2 ]; then
@@ -401,8 +405,8 @@ if [ "$INSTALL_LIST" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		LIST_ERROR=true
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10+1))s"  " * Aplicando permisos a los ficheros de configuración"
 	ERROR=false
 	chown -R $TVHEADEND_CHANNEL_USER:$TVHEADEND_CHANNEL_GROUP $TVHEADEND_CONFIG_DIR/channel 2>>Tvheadend_Movistar-Spain.log
@@ -444,8 +448,8 @@ if [ "$INSTALL_LIST" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		LIST_ERROR=true
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10))s"  " * Configurando Tvheadend"
 	ERROR=false
 	sed -i '/"chiconscheme": .*,/d' $TVHEADEND_CONFIG_DIR/config 2>>Tvheadend_Movistar-Spain.log
@@ -486,7 +490,7 @@ if [ "$INSTALL_GRABBER" = true ]; then
 			exit 1
 		fi
 	fi
-
+	
 	printf "%-$(($COLUMNS-10))s"  " * Descargando grabber de Movistar+"
 	wget -qO "tv_grab_movistar-spain" "$URL_GRABBER" 2>>Tvheadend_Movistar-Spain.log
 	if [ $? -eq 0 ]; then
@@ -496,7 +500,7 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		echo -e "\nEl grabber de Movistar+ no se ha podido descargar.\nPor favor, vuelva a intentarlo más tarde."
 		exit 1
 	fi
-
+	
 	printf "%-$(($COLUMNS-10))s"  " * Instalando grabber de Movistar+"
 	if [ -f /usr/bin/tv_grab_movistar-spain -a $SYSTEM -eq 1 ]; then
 		rm /usr/bin/tv_grab_movistar-spain 2>>Tvheadend_Movistar-Spain.log
@@ -553,8 +557,8 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		GRABBER_ERROR=true
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10))s"  " * Iniciando Tvheadend"
 	case $SYSTEM in
 		1)
@@ -576,9 +580,9 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		SERVICE_ERROR=true
 	fi
-
+	
 	sleep 4
-
+	
 	if [ ! -f $TVHEADEND_CONFIG_DIR/epggrab/config ]; then
 		printf '%*s' $COLUMNS | tr ' ' "-"
 		printf "$red%s$end\n\n" "¡No continúe hasta que haga lo siguiente!:"
@@ -587,15 +591,15 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		printf "\t%s$blue%s$end\n" "1- Seleccione el grabber " "\"XMLTV: Movistar+\""
 		printf "\t%s$blue%s$end\n\t%s\n" "2- En el menú lateral marque la casilla " "\"Habilitado\"" "  (en inglés \"Enabled\")"
 		printf "\t%s$blue%s$end\n\t%s\n\n" "3- Finalmente, pulse sobre el botón superior " "\"Guardar\"" "  (en inglés \"Save\")"
-
+		
 		CONTINUAR="n"
 		while [ "$CONTINUAR" != "s" ] && [ "$CONTINUAR" != "S" ] && [ "$CONTINUAR" != "" ]; do
 			read -p "Una vez haya realizado este proceso ya puede continuar. ¿Desea continuar? [S/n]" CONTINUAR
 		done
 		printf '%*s' $COLUMNS | tr ' ' "-"
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10))s"  " * Deteniendo Tvheadend"
 	case $SYSTEM in
 		1)
@@ -617,8 +621,8 @@ if [ "$INSTALL_GRABBER" = true ]; then
 		printf "%s$red%s$end%s\n" "[" "FAILED" "]"
 		SERVICE_ERROR=true
 	fi
-
-
+	
+	
 	printf "%-$(($COLUMNS-10))s"  " * Habilitando grabber de Movistar+"
 	ERROR=false
 	sed -i '/tv_grab_movistar-spain/,/},/d' $TVHEADEND_CONFIG_DIR/epggrab/config 2>>Tvheadend_Movistar-Spain.log
