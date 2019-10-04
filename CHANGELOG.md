@@ -1,3 +1,7 @@
+## 2019-10-04
+Actualizado el script con prevención de errores y el grabber con una nueva EPG.
+
+
 ## 2018-09-01
 ### Sustituidos los canales (cambio de frecuencia y nombre)
 - TeleSUR (Dial: 142) --> TeleSUR HD
