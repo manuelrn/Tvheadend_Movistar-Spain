@@ -1,12 +1,12 @@
 #!/bin/sh
-enable_tdt_epg=false
+enable_alternative_epg=false
 xmltv_type="URL"
-xmltv_file_location="/tmp/latinmunich_xmltv-movistar-spain.gz"
-if [ "$enable_tdt_epg" = true ]
+xmltv_file_location="/tmp/guiatv.xml.gz"
+if [ "$enable_alternative_epg" = true ]
 then
-    xmltv_url_location="http://epg.tododream.com/latinmunich_xmltv-movistar-spain_todo.gz"
+    xmltv_url_location="https://github.com/salondigital/epg/raw/master/guiatv_eminence2mod.xml.gz" #"http://epg.tododream.com/latinmunich_xmltv-movistar-spain_todo.gz"
 else
-    xmltv_url_location="http://epg.tododream.com/latinmunich_xmltv-movistar-spain.gz"
+    xmltv_url_location="https://github.com/salondigital/epg/raw/master/guiatv.xml.gz" #"http://epg.tododream.com/latinmunich_xmltv-movistar-spain.gz"
 fi
 dflag=
 vflag=
